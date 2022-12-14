@@ -1,4 +1,4 @@
-import { Tranaction } from "./types/transaction";
+import { Tranaction } from "./transaction";
 const { v4: uuidv4 } = require('uuid');
 
 export class Customer{
@@ -36,9 +36,9 @@ export class Customer{
         return balance;
     }
 
-    addTransaction(amount: number): boolean{
+    addTransactions(amount: number): boolean{
         const balance = this.getBalance();
-        if(balance - amount > 0)
+        if(balance + amount > 0)
         {   
             const time_now :string = new Date().toString();
             const new_transation : Tranaction = {

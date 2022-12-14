@@ -1,78 +1,37 @@
-import { Customer } from "./customer";
 
+import { Bank } from "./types/bank"
+import { Branch } from "./types/branch"
+import { Customer } from "./types/customer"
 
-class Branch{
-    private _name: string;
-    private _customers: Customer[];
+const arizonaBank = new Bank("Arizona")
+const westBranch = new Branch("West Branch")
+const sunBranch = new Branch("Sun Branch")
+const customer1 = new Customer("John")
+const customer2 = new Customer("Anna")
+const customer3 = new Customer("John")
 
-    constructor(name:string)
-    {
-        this._name = name;
-        this._customers = [];
-    }
+arizonaBank.addBranch(westBranch)
+arizonaBank.addBranch(sunBranch)
+arizonaBank.addBranch(westBranch) 
 
-    get getName():string{
-        return this._name;
-    }
+arizonaBank.findBranchByName("bank")
+arizonaBank.findBranchByName("sun")
 
-    get getCutomers(): Customer[]{
-        return this._customers;
-    }
+arizonaBank.addCustomer(westBranch, customer1)
+arizonaBank.addCustomer(westBranch, customer3)
+arizonaBank.addCustomer(sunBranch, customer1)
+arizonaBank.addCustomer(sunBranch, customer2)
 
-    addCustomer(new_customer : Customer):boolean
-    {
-        const notFound:boolean = this._customers.every(
-            (c)=>{
-                return c.getId !== new_customer.getId;
-            })
+arizonaBank.addCustomerTransaction(westBranch, customer1.getId, 3000)
+arizonaBank.addCustomerTransaction(westBranch, customer1.getId, 2000)
+arizonaBank.addCustomerTransaction(westBranch, customer2.getId, 3000)
 
-        if(notFound){
-            this._customers.push(new_customer)
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    addCustomerTransaction(id:string, amount:number) : boolean {
-        // check if id exit
-        for(let i = 0; i<this._customers.length; i++)
-        {
-            if(this._customers[i].getId === id)
-            {
-                const success: boolean =
-                 this._customers[i].addTransaction(amount);
-                return success;
-            }
-        }
-        return false;
-
-    }
-
-    findCustomer(id:string): Customer | null{
-        for(let i = 0; i<this._customers.length; i++)
-        {
-            if(this._customers[i].getId === id)
-            {
-                return this._customers[i];
-            }
-        }
-        return null;
-    }
+const bra : null | Branch[] = arizonaBank.findBranchByName("west")
+if(bra){
+    console.log(bra[0].getCutomers)
 }
 
-class Bank{
-    private _name: string;
-    private _branches: Branch[];
-
-    constructor(name: string){
-        this._name = name;
-        this._branches = [];
-    }
-
-    addbarnch(branch: Branch): boolean{
-        
-    }
-
-}
+customer1.addTransactions(-1000)
+console.log("Customer 1 balance with id: " + customer1.getId + " is: " + customer1.getBalance())
+console.log("--------------Branch exist: ", arizonaBank.listCustomers(westBranch, true))
+console.log("--------------Branch exist: ", arizonaBank.listCustomers(sunBranch,true))
