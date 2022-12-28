@@ -1,7 +1,6 @@
 import { Customer } from "./customer";
 import { Branch } from "./branch";
 
-
 export class Bank{
     private _name: string;
     private _branches: Branch[];
